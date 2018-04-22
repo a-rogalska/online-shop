@@ -1,0 +1,55 @@
+%h1.page-header
+  New Order
+%div(ng-init= "fetchProducts()")
+  %table.table.table-hover
+    %thead
+      %tr
+        %th Name
+        %th Count
+        %th Price (for 1)
+        %th Price
+    %tbody
+      %tr(ng-repeat="product in products")
+        %td
+          {{product.name}}
+        %td
+          {{product.count}}
+        %td
+          {{product.price | currency}}
+        %td
+          {{product.price * product.count | currency}}
+  .float-right.text-right
+    %span
+      Count:
+    %span.summary
+      = @total[:count]
+    %br
+    %span
+      Discount:
+    %span.summary
+      = number_to_currency(@total[:discount])
+    %br
+    %span
+      Total price:
+    %span.summary
+      = number_to_currency(@total[:total_price])
+  .clear_both
+
+= simple_form_for @order, html: { class: 'order-form' } do |f|
+  .form-group.row
+    = f.label :first_name, class: 'col-lg-2 col-form-label'
+    .col-lg-10
+      = f.text_field :first_name, required: true, class: "form-control"
+  .form-group.row
+    = f.label :last_name, class: 'col-lg-2 col-form-label'
+    .col-lg-10
+      = f.text_field :last_name, required: true, class: "form-control"
+  .form-group.row
+    = f.label :email, class: 'col-lg-2 col-form-label'
+    .col-lg-10
+      = f.email_field :email, required: true, class: "form-control"
+  .form-group.row
+    = f.label :address, class: 'col-lg-2 col-form-label'
+    .col-lg-10
+      = f.text_field :address, required: true, class: "form-control"
+  = f.button :submit, class: 'btn btn-success pull-right'

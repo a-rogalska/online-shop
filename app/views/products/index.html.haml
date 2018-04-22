@@ -1,0 +1,26 @@
+%h1.page-header
+  Products
+%div
+  - @products.each do |product|
+    .product-container
+      .row
+        .col-lg-12
+          .text-center
+            %span.product-name= product.name
+      .row
+        .col-lg-2
+          Code:
+        .col-lg-6
+          = product.product_code
+      .row
+        .col-lg-2
+          Price:
+        .col-lg-6
+          = number_to_currency(product.price)
+      .row.text-center
+        .col-lg-6
+          %i.fa.fa-plus(ng-click="updateBasket(#{product.id}, 'add')" ng-class="{loading: basketLoading}")
+            Add
+        .col-lg-6
+          %i.fa.fa-minus(ng-click="updateBasket(#{product.id}, 'remove')" ng-class="{loading: basketLoading}")
+            Remove

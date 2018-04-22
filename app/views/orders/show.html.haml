@@ -1,0 +1,60 @@
+%h1.page-header
+  Order
+  = "##{@order.id}"
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th Name
+      %th Count
+      %th Price (for 1)
+      %th Price
+  %tbody
+    - @order.product_orders.each do |product_order|
+      %tr
+        %td= product_order.product.name
+        %td= product_order.count
+        %td= number_to_currency(product_order.product.price)
+        %td= number_to_currency(product_order.product.price * product_order.count)
+.float-right.text-right
+  %span
+    Discount:
+  %span.summary
+    = number_to_currency(@order.discount)
+  %br
+  %span
+    Total price:
+  %span.summary
+    = number_to_currency(@order.total)
+.clear_both
+
+.order-details
+  .row
+    .col-lg-2
+      %span First name:
+    .col-lg-10
+      %span= @order.first_name
+  .row
+    .col-lg-2
+      %span Last name:
+    .col-lg-10
+      %span= @order.last_name
+  .row
+    .col-lg-2
+      %span Email:
+    .col-lg-10
+      %span= @order.email
+  .row
+    .col-lg-2
+      %span Address:
+    .col-lg-10
+      %span= @order.address
+
+%div(ng-controller = 'OrderCtrl')
+  %button.btn.btn-info(ng-click="sendSummary(#{@order.id})")
+    Send order summary by email
+  %br
+  %alert(ng-repeat="alert in alerts | limitTo: -3" type="alert.type")
+    {{alert.msg}}
+    %a(ng-click="closeAlert($index)")
+      %i.fa.fa-times

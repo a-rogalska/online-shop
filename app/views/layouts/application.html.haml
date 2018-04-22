@@ -1,0 +1,36 @@
+!!! 5
+%html
+  %head
+    %title OnlineShop
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_include_tag 'application'
+    %link(href="https://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet")
+
+  %body(ng-app="onlineShop")
+    %nav.navbar.navbar-default
+      %a.navbar-brand(href="/" target="_self")
+        Online Shop
+
+    .container
+      - flash.each do |key, value|
+        %div.alert.alert-dismissible.fade.show.custom-alert{ class: "alert-#{key}" }
+          = value
+          %button.close(type="button" data-dismiss="alert" aria-label="Close")
+            %span(aria-hidden="true")
+              &times;
+      %div(ng-controller="BasketCtrl")
+        .basket(ng-class="{loading: basketLoading}")
+          %a.fa.fa-shopping-cart.fa-5x.float-left(href="/orders/new" target="_self")
+          %div.basket-info
+            %span
+              Count:
+              {{ basketTotal.count }}
+            %br
+            %span.total_price
+              {{ basketTotal.total_price | currency }}
+
+        = yield
+
